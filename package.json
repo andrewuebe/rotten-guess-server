@@ -1,0 +1,19 @@
+{
+  "name": "rotten-guess-server",
+  "version": "1.0.0",
+  "description": "Server for a web app guessing game called Rotten Guess",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewuebe/rotten-guess-server.git"
+  },
+  "author": "Andrew Uebelein <andrewuebe@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrewuebe/rotten-guess-server/issues"
+  },
+  "homepage": "https://github.com/andrewuebe/rotten-guess-server#readme"
+}
