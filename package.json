@@ -2,9 +2,12 @@
   "name": "rotten-guess-server",
   "version": "1.0.0",
   "description": "Server for a web app guessing game called Rotten Guess",
-  "main": "index.js",
+  "main": "src/bin/server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node _dist/bin/server.js",
+    "start:dev": "nodemon --exec 'ts-node' src/bin/server.ts",
+    "build": "tsc -p ./"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,23 @@
   "bugs": {
     "url": "https://github.com/andrewuebe/rotten-guess-server/issues"
   },
-  "homepage": "https://github.com/andrewuebe/rotten-guess-server#readme"
+  "homepage": "https://github.com/andrewuebe/rotten-guess-server#readme",
+  "engines": {
+    "node": "~18.16"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "http": "^0.0.1-security",
+    "ts-node": "^10.9.1",
+    "ws-game-lobby": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.3.3",
+    "nodemon": "^2.0.22",
+    "typescript": "^5.1.6"
+  }
 }
