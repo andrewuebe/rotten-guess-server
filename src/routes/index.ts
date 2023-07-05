@@ -7,8 +7,7 @@ import LobbyService from "src/services/LobbyService";
 export default function Routes(
   // auth: AuthMiddleware,
   router: Router = Router(),
-  lobbyService: LobbyService
 ): Router {
-  router.use('/lobby', LobbyRouter(lobbyService));
+  router.use('/lobby', LobbyRouter());
   return router;
 }

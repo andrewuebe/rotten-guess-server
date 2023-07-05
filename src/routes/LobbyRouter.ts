@@ -1,10 +1,8 @@
 import { Router } from 'express';
 import LobbyController from '../controllers/LobbyController';
-import LobbyService from 'src/services/LobbyService';
 
 export default function LobbyRouter(
-  lobbyService: LobbyService,
-  controller: LobbyController = new LobbyController(lobbyService),
+  controller: LobbyController = new LobbyController(),
   router: Router = Router(),
 ): Router {
   router.post('/', controller.postLobby);

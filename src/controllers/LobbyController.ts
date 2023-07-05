@@ -4,7 +4,7 @@ import LobbyService from '../services/LobbyService';
 
 export default class LobbyController {
   constructor(
-    private service: LobbyService
+    private service: LobbyService = new LobbyService(),
   ) { }
 
   getLobby = async (req: Request, res: Response, next: NextFunction) => {

@@ -1,5 +1,3 @@
-import { GameLobby } from 'ws-game-lobby';
-
 export default class LobbyService {
   constructor() { }
 
@@ -7,16 +5,19 @@ export default class LobbyService {
     console.log('lets get the lobby');
     return { lobbyId };
   }
-
+  ß
   async createLobby() {
-    console.log(GameLobby);
-    const lobby = new GameLobby();
-    console.log('lobby: ', lobby);
+    console.log('lets create the lobby');
     return { lobbyId: '123' };
   }
 
   async putLobby(lobbyId: string) {
     console.log('lets put the lobby');
+    return { lobbyId };
+  }
+
+  async joinLobby(lobbyId: string) {
+    console.log('lets join the lobby');
     return { lobbyId };
   }
 

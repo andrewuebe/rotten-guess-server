@@ -6,10 +6,8 @@ import EventEmitter from 'events';
 import express, { Express } from 'express';
 import Routes from './routes';
 
-// import config from './config';
-// import db from './database';
-
 export default class App extends EventEmitter {
+
   constructor(
     public expressApp: Express = express(),
   ) {
@@ -21,6 +19,7 @@ export default class App extends EventEmitter {
     try {
       // await db.connect();
       console.log('Connected to DB');
+
     } catch (err) {
       console.log('Error connecting to DB: ', err);
       process.exit(0);
@@ -31,6 +30,7 @@ export default class App extends EventEmitter {
     try {
       // Prepare app
       await this.prepare();
+
       // Add middleware
       this.expressApp.use(cors()); // todo: add httpConfig
       this.expressApp.use(express.json());
