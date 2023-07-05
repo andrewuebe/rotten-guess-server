@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import cors from 'cors';
+import db from './database';
 import EventEmitter from 'events';
 import express, { Express } from 'express';
 import Routes from './routes';
@@ -17,7 +18,7 @@ export default class App extends EventEmitter {
   async prepare() {
     // Connect to DB and then start server
     try {
-      // await db.connect();
+      await db.connect();
       console.log('Connected to DB');
 
     } catch (err) {
