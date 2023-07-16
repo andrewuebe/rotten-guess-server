@@ -7,6 +7,9 @@ import EventEmitter from 'events';
 import express, { Express } from 'express';
 import Routes from './routes';
 
+import { Player } from './database/models/Player';
+import { Lobby } from './database/models/Lobby';
+
 export default class App extends EventEmitter {
 
   constructor(
@@ -21,6 +24,12 @@ export default class App extends EventEmitter {
       await db.connect();
       console.log('Connected to DB');
 
+      // Delete all players and lobbies older than 6 hours old
+      const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000);
+      Player.deleteMany({ updated_at: { $lt: sixHoursAgo } })
+        .then(() => console.log('Deleted all players older than 6 hours old'));
+      Lobby.deleteMany({ updated_at: { $lt: sixHoursAgo } })
+        .then(() => console.log('Deleted all lobbies older than 6 hours old'));
     } catch (err) {
       console.log('Error connecting to DB: ', err);
       process.exit(0);
