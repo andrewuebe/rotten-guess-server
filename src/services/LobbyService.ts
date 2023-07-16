@@ -6,11 +6,6 @@ import jwt from 'jsonwebtoken';
 export default class LobbyService {
   constructor() { }
 
-  async getLobby(lobbyId: string) {
-    console.log('lets get the lobby');
-    return { lobbyId };
-  }
-
   async createLobby() {
     console.log('lets create the lobby');
     const lobbyToken = await LobbyHelper.generateLobbyToken();
