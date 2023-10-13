@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { Lobby } from '../models/Lobby';
 
 export default class LobbyRepository {

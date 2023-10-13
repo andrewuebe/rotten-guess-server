@@ -9,13 +9,8 @@ export default class LobbyHelper {
     this.lobbyModel = lobbyModel;
   }
 
-  get safeValues() {
-    const { __v, _id, created_at, updated_at, ...safeValues } = this.lobbyModel.toObject();
-    return safeValues;
-  }
-
-  static async generateLobbyToken(length = 5) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  static async generateLobbyToken(length = 4) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result = '';
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * characters.length));

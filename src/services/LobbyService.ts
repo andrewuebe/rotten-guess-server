@@ -1,37 +1,38 @@
 import LobbyHelper from "../helpers/LobbyHelper";
 import { LobbyRepository } from '../database/repositories';
 import { PlayerRepository } from '../database/repositories';
+import logger from '../config/logger';
 import jwt from 'jsonwebtoken';
 
 export default class LobbyService {
   constructor() { }
 
   async createLobby() {
-    console.log('lets create the lobby');
+    logger.info('LOBBY_SERVICE_CREATE_LOBBY');
     const lobbyToken = await LobbyHelper.generateLobbyToken();
     const newPlayer = await PlayerRepository.newPlayer({ lobbyToken });
     const playerToAdd = { id: newPlayer._id, name: newPlayer.name };
-    const token = jwt.sign(playerToAdd, process.env.JWT_SECRET, { expiresIn: '1h' })
+    const token = jwt.sign({ ...playerToAdd, lobby_token: lobbyToken }, process.env.JWT_SECRET, { expiresIn: '1h' })
     const newLobby = await LobbyRepository.newLobby(lobbyToken, playerToAdd);
     return { lobby: newLobby, token };
   }
 
   async putLobby(lobbyId: string) {
-    console.log('lets put the lobby');
+    logger.info('LOBBY_SERVICE_PUT_LOBBY', { lobbyId });
     return { lobbyId };
   }
 
   async joinLobbyNewPlayer(lobbyToken: string, playerName?: string) {
-    console.log('lets join the lobby');
+    logger.info('LOBBY_SERVICE_JOIN_LOBBY_NEW_PLAYER', { lobbyToken, playerName });
     const newPlayer = await PlayerRepository.newPlayer({ playerName, lobbyToken });
     const playerToAdd = { id: newPlayer._id, name: newPlayer.name };
-    const token = jwt.sign(playerToAdd, process.env.JWT_SECRET, { expiresIn: '1h' })
+    const token = jwt.sign({ ...playerToAdd, lobby_token: lobbyToken }, process.env.JWT_SECRET, { expiresIn: '1h' })
     const lobby = await LobbyRepository.addPlayerToLobby(lobbyToken, playerToAdd);
-    return { lobby, token };
+    return { lobby, player: playerToAdd, token };
   }
 
   async deleteLobby(lobbyId: string) {
-    console.log('lets delete the lobby');
+    logger.info('LOBBY_SERVICE_DELETE_LOBBY', { lobbyId });
     return { lobbyId };
   }
 }

@@ -8,6 +8,7 @@ interface PlayerModel {
 export interface PlayerDocument extends Document {
   name: string;
   lobby_token?: string;
+  safeValues: () => any;
 }
 
 const PlayerSchema: Schema = new Schema({
@@ -25,6 +26,11 @@ const PlayerSchema: Schema = new Schema({
     updatedAt: 'updated_at'
   }
 });
+
+PlayerSchema.methods.safeValues = function () {
+  const { name, lobby_token } = this.toObject();
+  return { name, lobby_token };
+}
 
 const Player: Model<PlayerDocument> = mongoose.model<PlayerDocument>('Player', PlayerSchema);
 

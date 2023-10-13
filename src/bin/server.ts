@@ -1,6 +1,8 @@
 import http from 'http';
 import App from '../app';
 import config from '../config';
+import { initSocket } from '../socket';
+import logger from '../config/logger';
 
 const app = new App();
 const { expressApp } = app;
@@ -36,8 +38,11 @@ function onError(error) {
 expressApp.set('port', port);
 
 app.on('ready', async () => {
-  // Create HTTP server.
+  // Create HTTP server..
   const server = http.createServer(expressApp);
+
+  // Create Socket.IO server
+  const io = initSocket(server);
 
   // Listen on provided port, on all network interfaces.
   server.listen(port);
@@ -47,7 +52,7 @@ app.on('ready', async () => {
     const bind = typeof address === 'string'
       ? `pipe ${address}`
       : `port ${address?.port}`;
-    console.log('The server started, listening on port ', bind);
+    logger.info(`The server started, listening on port ${bind}`);
   });
 });
 

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import config from '../config';
+import logger from '../config/logger';
 
 /**
  * Connect to MongoDB database
@@ -7,18 +8,17 @@ import config from '../config';
 const connect = async () => {
   const mongoURL = config.db.mongo_url;
   const connectToURL = () => {
-    console.log('MongoDB Connecting...');
+    logger.info('MOGODB_CONNECTING');
     return mongoose.connect(mongoURL).then((connection) => {
-      console.log('MongoDB Connected');
-      return connection;
+      logger.info('MOGODB_CONNECTED');
     }).catch((error) => {
-      console.log('MongoDB Connection Error: ', error);
+      logger.error('MONDODB_CONNECTION_ERROR', { error });
       return process.exit(1);
     });
   }
 
   mongoose.connection.on('disconnected', async () => {
-    console.log('MongoDB Disconnected');
+    logger.info('MONGODB_DISCONNECTED');
     await connectToURL();
   });
 

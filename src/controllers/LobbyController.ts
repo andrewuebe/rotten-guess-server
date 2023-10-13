@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { successResponse } from '../helpers/APIHelper';
 import LobbyService from '../services/LobbyService';
-import PlayerHelper from '../helpers/PlayerHelper';
-import LobbyHelper from '../helpers/LobbyHelper';
 
 export default class LobbyController {
   constructor(
@@ -12,8 +10,8 @@ export default class LobbyController {
   getLobby = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { player, lobby } = res.locals;
-      const playerSafeValues = new PlayerHelper(player).safeValues;
-      const lobbySafeValues = new LobbyHelper(lobby).safeValues;
+      const playerSafeValues = player.safeValues();
+      const lobbySafeValues = lobby.safeValues();
       return res.status(200).json(successResponse({ player: playerSafeValues, lobby: lobbySafeValues }));
     } catch (e) {
       return next(e);

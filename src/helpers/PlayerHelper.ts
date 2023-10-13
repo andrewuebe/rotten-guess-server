@@ -9,9 +9,4 @@ export default class PlayerHelper {
     }
     this.playerModel = playerModel;
   }
-
-  get safeValues() {
-    const { name, lobby_token } = this.playerModel.toObject();
-    return { name, lobby_token };
-  }
 };
