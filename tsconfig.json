@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es6"
+    ],
+    "target": "es6",
+    "types": [
+      "node",
+      "express"
+    ],
+    "allowJs": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true, // Allows for the use of default imports, and the export = syntax from commonjs node moduels.
+    "sourceMap": true,
+    "outDir": "./_dist",
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "**/*.json"
+  ]
+}
