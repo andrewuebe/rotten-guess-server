@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { successResponse } from '../helpers/APIHelper';
 import GameService from "../services/GameService";
 import GameHelper from "../helpers/GameHelper";
-import { getSocket } from "../socket";
+import { getSocket, io } from "../socket";
 import { RoundStatus } from "../database/models/Game";
 import logger from "../config/logger";
 
@@ -58,15 +58,23 @@ export default class GameController {
     try {
       const { lobby, player } = res.locals;
       const guess = req.body.guess;
-      let updatedRound;
-      updatedRound = await this.service.guessingSubmit(lobby, player, guess);
+      const { game, updatedRound } = await this.service.guessingSubmit(lobby, player, guess);
 
       if (updatedRound.round_status === RoundStatus.SCORES) {
         const initiatingSocket = getSocket(player.id);
-        initiatingSocket.broadcast.to(lobby.lobby_token).emit('guessing-end', { updatedRound });
+        initiatingSocket.broadcast.to(lobby.lobby_token).emit('guessing-end', { game, updatedRound });
+
+        // Set the server-side timer for SCORES phase
+        const scoresDuration = 15500;  // slightly less tha
+        setTimeout(async () => {
+          game.current_round += 1;
+          game.save();
+          io.to(lobby.lobby_token).emit('start-next-round', { game });
+        }, scoresDuration);
       }
 
-      return res.status(200).json(successResponse({ updatedRound }));
+
+      return res.status(200).json(successResponse({ game, updatedRound }));
     } catch (e) {
       return next(e);
     }

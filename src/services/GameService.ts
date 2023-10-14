@@ -25,6 +25,6 @@ export default class GameService {
   async guessingSubmit(lobby, player, guess) {
     const game = await GameRepository.getGame(lobby);
     const updatedRound = await GameRepository.guessingSubmit(lobby, game, player, guess);
-    return updatedRound;
+    return { game, updatedRound };
   }
 }

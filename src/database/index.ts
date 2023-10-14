@@ -1,20 +1,25 @@
 import mongoose from 'mongoose';
 import config from '../config';
 import logger from '../config/logger';
+import { Movie } from './models/Movie';
 
-/**
- * Connect to MongoDB database
- */
+let movieCount: number | null = null;
+
 const connect = async () => {
   const mongoURL = config.db.mongo_url;
-  const connectToURL = () => {
-    logger.info('MOGODB_CONNECTING');
-    return mongoose.connect(mongoURL).then((connection) => {
-      logger.info('MOGODB_CONNECTED');
-    }).catch((error) => {
-      logger.error('MONDODB_CONNECTION_ERROR', { error });
+  const connectToURL = async () => {
+    logger.info('MONGODB_CONNECTING');
+    try {
+      await mongoose.connect(mongoURL);
+      logger.info('MONGODB_CONNECTED');
+
+      // Fetching the count of movies during the initial connection
+      movieCount = await Movie.countDocuments().exec();
+
+    } catch (error) {
+      logger.error('MONGODB_CONNECTION_ERROR', { error });
       return process.exit(1);
-    });
+    }
   }
 
   mongoose.connection.on('disconnected', async () => {
@@ -25,4 +30,6 @@ const connect = async () => {
   await connectToURL();
 };
 
-export default { connect, mongoose };
+const getMovieCount = () => movieCount;
+
+export default { connect, mongoose, getMovieCount };

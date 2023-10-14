@@ -15,7 +15,7 @@ const socketOptions = {
   }
 };
 
-let io: SocketServer;
+export let io: SocketServer;
 const socketsMap = new Map<string, Socket>(); // Save the socket objects in this map
 
 export const initSocket = (server) => {

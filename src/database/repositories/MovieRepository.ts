@@ -1,4 +1,5 @@
 import { Movie, MovieDocument } from '../models/Movie';
+import db from '../index';
 
 export default class MovieRepository {
   /**
@@ -31,5 +32,12 @@ export default class MovieRepository {
   static async getMovieScoreById(id: string): Promise<number | null> {
     const movie = await Movie.findOne({ _id: id }).exec();
     return parseInt(movie?.rt_score) ?? null;
+  }
+
+  static async getRandomMovie(): Promise<MovieDocument | null> {
+    const count = db.getMovieCount();
+    const random = Math.floor(Math.random() * count);
+    const movie = await Movie.findOne().skip(random).exec();
+    return movie;
   }
 }

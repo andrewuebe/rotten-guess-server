@@ -13,7 +13,7 @@ export default class GameHelper {
     this.gameModel = gameModel;
   }
 
-  static getNewGameRound(roundNumber: number, roundType: RoundType, pickerPlayer: { id: string, name: string }) {
+  static getNewGameRound(roundNumber: number, roundType: RoundType, pickerPlayer: { id: string, name: string }, notFirstRound?: boolean) {
     logger.debug('pickerPlayer', pickerPlayer);
     return {
       round_number: roundNumber,
@@ -25,24 +25,34 @@ export default class GameHelper {
       },
       guesses: [],
       end_times: {
-        PICKING: this.getEndTime(RoundStatus.PICKING),
+        PICKING: notFirstRound ? this.getEndTime(RoundStatus.PICKING, notFirstRound) : this.getEndTime(RoundStatus.PICKING),
         GUESSING: null,
         SCORES: null,
       }
     }
   };
 
-  static getEndTime(roundStatus: RoundStatus): Date {
+  static getNextRoundPicker(players: PlayerDocument[], previousPickerId) {
+    const previousPickerIndex = players.findIndex(player => player.id.toString() === previousPickerId);
+    const nextPickerIndex = previousPickerIndex + 1 === players.length ? 0 : previousPickerIndex + 1;
+    const nextPicker = players[nextPickerIndex];
+    return {
+      player_id: nextPicker.id.toString(),
+      name: nextPicker.name,
+    };
+  }
+
+  static getEndTime(roundStatus: RoundStatus, notFirstRound?: boolean): Date {
     let secondsToAdd = 0;
     switch (roundStatus) {
       case RoundStatus.PICKING:
-        secondsToAdd = 20;
+        secondsToAdd = notFirstRound ? 36 : 20;
         break;
       case RoundStatus.GUESSING:
         secondsToAdd = 15;
         break;
       case RoundStatus.SCORES:
-        secondsToAdd = 10;
+        secondsToAdd = 15;
         break;
     }
 
@@ -111,5 +121,13 @@ export default class GameHelper {
     });
 
     return updatedPlayerScores;
+  }
+
+  static async getTimedOutPick() {
+    const randomMovie = await MovieRepository.getRandomMovie();
+    return {
+      movie_id: randomMovie.id,
+      timed_out: true,
+    };
   }
 };

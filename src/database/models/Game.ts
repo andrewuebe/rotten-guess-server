@@ -126,7 +126,7 @@ gameSchema.methods.safeValues = function () {
     round_type,
     round_status,
     picker_player: { name: picker_player.name },
-    guesses: guesses.map(({ name, guess, points }) => ({ name, guess, points })),
+    guesses: guesses.map(({ name, guess, points, timed_out }) => ({ name, guess, points, timed_out })),
     end_times,
     pick
   });
