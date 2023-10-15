@@ -49,7 +49,7 @@ export default class GameHelper {
         secondsToAdd = notFirstRound ? 36 : 20;
         break;
       case RoundStatus.GUESSING:
-        secondsToAdd = 15;
+        secondsToAdd = 20;
         break;
       case RoundStatus.SCORES:
         secondsToAdd = 15;
