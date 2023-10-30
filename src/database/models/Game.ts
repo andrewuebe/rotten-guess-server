@@ -62,6 +62,7 @@ interface GameModel extends Document {
   rounds: Round[];
   player_scores: PlayerScore[];
   picked_movie_ids: string[];
+  rounds_per_game: number;
   safeValues: () => any;
 };
 
@@ -114,6 +115,7 @@ const gameSchema = new Schema<GameModel>({
   rounds: [roundSchema],
   player_scores: [playerScoreSchema],
   picked_movie_ids: [String],
+  rounds_per_game: { type: Number, default: 5 }
 });
 
 gameSchema.methods.safeValues = function () {

@@ -65,7 +65,7 @@ export default class GameController {
         initiatingSocket.broadcast.to(lobby.lobby_token).emit('guessing-end', { game, updatedRound });
 
         // Set the server-side timer for SCORES phase
-        const scoresDuration = 15500;  // slightly less tha
+        const scoresDuration = 14500;
         setTimeout(async () => {
           game.current_round += 1;
           game.save();

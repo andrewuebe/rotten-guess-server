@@ -10,7 +10,7 @@ const config = {
     mongo_url: process.env.MONGO_CONNECTION_STRING || ''
   },
   corsOptions: {
-    origin: process.env.FRONT_END_URL
+    origin: `http://${process.env.LOCAL_URL_PREFIX}:8081`
   },
   positiveAdjectives,
   positiveNouns

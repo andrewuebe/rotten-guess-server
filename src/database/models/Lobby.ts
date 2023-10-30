@@ -47,7 +47,7 @@ const LobbySchema: Schema = new Schema({
   },
   lobby_max_size: {
     type: Number,
-    default: 8,
+    default: 6,
     required: false
   }
 }, {

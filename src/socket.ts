@@ -9,7 +9,7 @@ interface Socket extends BaseSocket {
 
 const socketOptions = {
   cors: {
-    origin: "http://localhost:8081", // replace with your frontend's origin
+    origin: `http://${process.env.LOCAL_URL_PREFIX}:8081`, // replace with your frontend's origin
     methods: ["GET", "POST"],
     credentials: true
   }

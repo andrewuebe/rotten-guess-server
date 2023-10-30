@@ -46,10 +46,10 @@ export default class GameHelper {
     let secondsToAdd = 0;
     switch (roundStatus) {
       case RoundStatus.PICKING:
-        secondsToAdd = notFirstRound ? 36 : 20;
+        secondsToAdd = notFirstRound ? 46 : 30;
         break;
       case RoundStatus.GUESSING:
-        secondsToAdd = 20;
+        secondsToAdd = 30;
         break;
       case RoundStatus.SCORES:
         secondsToAdd = 15;
